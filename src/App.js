@@ -90,10 +90,7 @@ function App() {
       createdAt: Timestamp.now(),
     });
     //clearing the blanks after adding the data
-    setText("");
-    setTaskDate(null);
-    setReminderEnabled(false);
-    setReminderTime("");
+    clearTexts();
   }
 
 
@@ -107,8 +104,6 @@ function App() {
     setReminderEnabled(false);
     setReminderTime(null);
   }
-
-
 
 
   // method for deleting the selected todo
@@ -183,8 +178,7 @@ function App() {
     }
   };
 
-
-
+ 
 
   // method for sending notifications
   useEffect(() => {
@@ -230,7 +224,6 @@ function App() {
 
 
 
-
   return (
     <div className="app_division">
 
@@ -238,70 +231,77 @@ function App() {
       <h1 className='app_name_header'>Todo 4U</h1>
 
       <form>
+        <div className='insertion_division'>
+          {/* Paper for todo components */}
+          <Paper elevation={20} className="input_paper">
 
-        {/* Paper for todo components */}
-        <Paper elevation={8} className="input_paper">
+            {/* Todo content */}
+            <TextField label="Enter the task" value={text} onChange={(event) => setText(event.target.value)} fullWidth className="todo_textfield"></TextField>
 
-          {/* Todo content */}
-          <TextField label="Enter the task" value={text} onChange={(event) => setText(event.target.value)} fullWidth className="todo_textfield"></TextField>
+            {/* Date and Time Picker */}
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer components={['DateTimePicker']}>
+                <DateTimePicker
+                  label="Enter the notification time"
+                  className="datetime_picker"
+                  value={taskDate}
+                  onChange={(newValue) => setTaskDate(newValue)}
+                />
+              </DemoContainer>
+            </LocalizationProvider>
 
-          {/* Date and Time Picker */}
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer components={['DateTimePicker']}>
-              <DateTimePicker
-                label="Enter the notification time"
-                className="datetime_picker"
-                value={taskDate}
-                onChange={(newValue) => setTaskDate(newValue)}
+
+            <div className="reminder_division">
+
+
+
+              {/* Reminder Selector */}
+              <Box className="selector_box">
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">Enter the reminder time</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    className="selector_time"
+                    disabled={!reminderEnabled}
+                    value={reminderTime || ""}
+                    onChange={(event) => setReminderTime(event.target.value)}
+                  >
+                    <MenuItem value={15} >15 min before</MenuItem>
+                    <MenuItem value={30} >30 min before</MenuItem>
+                    <MenuItem value={60} >60 min before</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+
+
+
+              {/* Reminder checkbox */}
+              <FormControlLabel
+                control={<Checkbox checked={reminderEnabled} onChange={(event) => setReminderEnabled(event.target.checked)} />}
+                label="Reminder"
+                className="label_checkbox"
               />
-            </DemoContainer>
-          </LocalizationProvider>
-
-
-          <div className="reminder_division">
-
-            {/* Reminder checkbox */}
-            <FormControlLabel
-              control={<Checkbox checked={reminderEnabled} onChange={(event) => setReminderEnabled(event.target.checked)} />}
-              label="Reminde me"
-              className="label_checkbox"
-            />
-
-            {/* Reminder Selector */}
-            <Box className="selector_box">
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Reminder Date</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  className="selector_time"
-                  disabled={!reminderEnabled}
-                  value={reminderTime || ""}
-                  onChange={(event) => setReminderTime(event.target.value)}
-                >
-                  <MenuItem value={15} >15 min before</MenuItem>
-                  <MenuItem value={30} >30 min before</MenuItem>
-                  <MenuItem value={60} >60 min before</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-          </div>
+            </div>
 
 
 
-          <div className="add_clear_button_division" >
+            <div className="add_clear_button_division" >
 
-            {/* Add Button */}
-            <Button className="button" variant="outlined" disabled={!text || !taskDate} onClick={Add}>Add</Button>
+              {/* Add Button */}
+              <Button className="button" variant="outlined" disabled={!text || !taskDate} onClick={Add}>Add</Button>
 
-            {/* Clear Button */}
-            <Button
-              className="button"
-              variant="outlined"
-              onClick={clearTexts}
-            >Clear</Button>
-          </div>
-        </Paper>
+              {/* Clear Button */}
+              <Button
+                className="button"
+                color='error'
+                variant="outlined"
+                onClick={clearTexts}
+              >Clear</Button>
+            </div>
+          </Paper>
+        </div>
+
       </form>
 
 
@@ -312,40 +312,49 @@ function App() {
           <Paper key={todo.id} elevation={4} className="todo_paper">
             {editId === todo.id ? (
               <>
-                {/* Todo textfield */}
-                <TextField className='edit_todo_text' value={editText} onChange={(event) => setEditText(event.target.value)} fullWidth />
+                <div className='edit_division'>
+                  {/* Todo textfield */}
+                  <TextField label= 'Enter the task' className='edit_todo_text' value={editText} onChange={(event) => setEditText(event.target.value)} fullWidth />
 
-                {/* Todo DateTimepPicker from muix */}
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DateTimePicker className='edit_todo_date_time_picker' value={editDate} onChange={(newValue) => setEditDate(newValue)} />
-                </LocalizationProvider>
+                  {/* Todo DateTimepPicker from muix */}
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DateTimePicker label= 'Enter the notification time' className='edit_todo_date_time_picker' value={editDate} onChange={(newValue) => setEditDate(newValue)} />
+                  </LocalizationProvider>
 
-                {/* Todo reminder checkbox with text */}
-                <FormControlLabel className='edit_todo_reminder_checkbox'
-                  control={<Checkbox checked={editReminderEnabled} onChange={(event) => setEditReminderEnabled(event.target.checked)} />}
-                  label="Reminder"
-                />
+                  {/* Todo remindertime selector */}
+                  {editReminderEnabled && (
+                    <FormControl className='edit_todo_remindertime_selector' fullWidth>
+                      <InputLabel className='edit_todo_remindertime_text'>Enter the reminder time</InputLabel>
+                      <Select
+                        value={editReminderTime || ""}
+                        onChange={(event) => setEditReminderTime(event.target.value)}
+                      >
+                        <MenuItem value={15}>15 min before</MenuItem>
+                        <MenuItem value={30}>30 min before</MenuItem>
+                        <MenuItem value={60}>60 min before</MenuItem>
+                      </Select>
+                    </FormControl>
+                  )}
 
-                {/* Todo remindertime selector */}
-                {editReminderEnabled && (
-                  <FormControl className='edit_todo_remindertime_selector' fullWidth>
-                    <InputLabel className='edit_todo_remindertime_text'>Reminder Time</InputLabel>
-                    <Select
-                      value={editReminderTime || ""}
-                      onChange={(event) => setEditReminderTime(event.target.value)}
-                    >
-                      <MenuItem value={15}>15 min before</MenuItem>
-                      <MenuItem value={30}>30 min before</MenuItem>
-                      <MenuItem value={60}>60 min before</MenuItem>
-                    </Select>
-                  </FormControl>
-                )}
+                  {/* Todo reminder checkbox with text */}
+                  <FormControlLabel className='edit_todo_reminder_checkbox'
+                    control={<Checkbox checked={editReminderEnabled} onChange={(event) => setEditReminderEnabled(event.target.checked)} />}
+                    label="Reminder"
+                  />
 
-                {/* Todo edit save button */}
-                <Button className='button' onClick={() => { updateTodo(todo.id, editText, editDate, editReminderEnabled, editReminderTime); setEditId(null); }}>Save</Button>
+                  
+                  <div className='edit_cancel_button_division'>
+                    {/* Todo edit save button */}
+                    <Button className='button' variant="outlined" onClick={() => { updateTodo(todo.id, editText, editDate, editReminderEnabled, editReminderTime); setEditId(null); }}>Save</Button>
 
-                {/* Todo edit cancel button */}
-                <Button className='button' onClick={() => setEditId(null)}>Cancel</Button>
+                    {/* Todo edit cancel button */}
+                    <Button className='button' variant="outlined" color='error' onClick={() => setEditId(null)}>Cancel</Button>
+
+                  </div>
+
+                </div>
+
+
               </>
             ) : (
               <>

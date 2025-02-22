@@ -1,4 +1,193 @@
 * {
-  margin: 10px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.app_division {
+  margin: 20px 150px 22px 150px;
+  padding: 15px 0px 15px 0px;
+}
+
+
+h1 {
+  font-family: 'Arial', sans-serif;
+  font-size: 35px;
+  text-shadow: 1px 1px 3px black;
+  background: linear-gradient(to right, #4682b6, #1f6db0, #0e65b2);
+  color: white;
   text-align: center;
+  margin-bottom: 20px;
+  border: 1px solid black;
+  height: 60px;
+  margin-bottom: 25px;
+  padding: 7px;
+  box-shadow: 0px 2px 5px gray;
+}
+
+.edit_delete_button_division {
+  display: flex; 
+  justify-content: space-between; 
+  width: 100%; 
+  margin-top: 15px; 
+  gap: 10px;
+}
+
+.todo_division{
+
+  padding: 40px;
+}
+
+
+
+
+.input_paper {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 15px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-sizing: border-box;
+  
+}
+
+.todo_textfield,
+.datetime_picker,
+.selector_time,
+.button {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 15px;
+  transition: all 0.3s ease-in-out;
+}
+
+.todo_paper {
+
+  position: relative;
+  margin-bottom: 15px;
+  padding: 15px;
+
+}
+
+.todo_paper .edit_form_container {
+  display: none;
+  
+}
+
+.todo_paper.editing .edit_form_container {
+  display: block;
+  
+}
+
+.todo_paper .todo_content {
+  z-index: 0;
+ 
+}
+
+.edit_form_container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 15px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  
+}
+
+.reminder_division {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-top: 8px;
+  justify-content: space-between;
+}
+
+.label_checkbox {
+  margin-left: 20px;
+}
+
+.selector_box {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  flex-grow: 1;
+}
+
+.selector_time {
+  text-align: center;
+  margin-right: 8px;
+  width: 100%;
+}
+
+.reminder-text {
+  display: inline-block;
+  margin-left: 8px;
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+  transition: all 0.3s ease-in-out;
+  opacity: 0;
+}
+
+.reminder-text.show {
+  opacity: 1;
+}
+
+.add_clear_button_division {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.edit_division {
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+}
+
+.edit_cancel_button_division {
+
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 10px;
+  margin-top: 20px;
+
+}
+
+.button {
+  flex-grow: 1;
+  min-width: 120px;
+}
+
+.datetime_picker {
+  flex-grow: 1;
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .input_paper {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .add_clear_button_division {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .button {
+    width: 48%;
+    margin-bottom: 10px;
+  }
 }
